@@ -644,7 +644,7 @@
 
         <!-- Centered Menu Icon for Mobile -->
         <div class="navbar__toggle" id="mobile-menu">
-            <img src="images/Menu Button.png" alt="Menu Button" class="menu-img" />
+            <img src="images/Menu button.png" alt="Menu Button" class="menu-img" />
         </div>
 
         <!-- Menu Items -->
@@ -1470,34 +1470,39 @@ here and there.
                 menuLinks.classList.toggle('active');
             });
 
-            // Custom Cursor Implementation
-            const cursor = document.getElementById('custom-cursor');
+            // Custom Cursor Implementation - only enable on non-touch devices
+            if (!('ontouchstart' in window) && window.matchMedia("(pointer:fine)").matches) {
+                const cursor = document.getElementById('custom-cursor');
 
-            // Hide default cursor
-            document.body.style.cursor = 'none';
+                // Hide default cursor
+                document.body.style.cursor = 'none';
 
-            // Move custom cursor with mouse
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.top = e.clientY + 'px';
-                cursor.style.left = e.clientX + 'px';
-            });
-
-            // Elements that should trigger cursor hover effect
-            function getHoverElements() {
-                // All links, navbar menu links, buttons, clickable icons, and menu button
-                return document.querySelectorAll('a, .navbar__links, button, .clickable-icon, .navbar__toggle');
-            }
-            function addCursorHoverEvents() {
-                getHoverElements().forEach(el => {
-                    el.addEventListener('mouseenter', () => {
-                        cursor.classList.add('hovered');
-                    });
-                    el.addEventListener('mouseleave', () => {
-                        cursor.classList.remove('hovered');
-                    });
+                // Move custom cursor with mouse
+                document.addEventListener('mousemove', (e) => {
+                    cursor.style.top = e.clientY + 'px';
+                    cursor.style.left = e.clientX + 'px';
                 });
+
+                // Elements that should trigger cursor hover effect
+                function getHoverElements() {
+                    return document.querySelectorAll('a, .navbar__links, button, .clickable-icon, .navbar__toggle');
+                }
+                function addCursorHoverEvents() {
+                    getHoverElements().forEach(el => {
+                        el.addEventListener('mouseenter', () => {
+                            cursor.classList.add('hovered');
+                        });
+                        el.addEventListener('mouseleave', () => {
+                            cursor.classList.remove('hovered');
+                        });
+                    });
+                }
+                addCursorHoverEvents();
+            } else {
+                // Hide custom cursor element entirely on touch devices
+                const cursor = document.getElementById('custom-cursor');
+                if (cursor) cursor.style.display = 'none';
             }
-            addCursorHoverEvents();
 
 
             // Typewriter effect line by line with infinite looping for hero
@@ -1546,8 +1551,3 @@ here and there.
     </script>
 </body>
 </html>
-        @media screen and (min-width: 1400px) {
-            .showcase-right h1 {
-                white-space: pre-line; /* preserve <br> only on large screens */
-            }
-        }

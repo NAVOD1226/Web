@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDarts Portfolio</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@100;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Remove default hand cursor for links and buttons */
+        a, .navbar__links, button {
+            cursor: none;
+        }
+        /* Custom Cursor Styles */
+        .custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px; /* tiny circle default */
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor.hovered {
+            width: 30px; /* larger size when hovering */
+            height: 30px;
+            background-color: #FFFFFF; /* bright white */
+            opacity: 1; /* full opacity */
+        }
+        /* General Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', 'Roboto', sans-serif;
+        }
+
+        /* Set overall website background */
+        html, body {
+            background-color: #05090E;
+            overflow-x: hidden; /* prevent horizontal scroll */
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                to right,
+                rgba(255,245,223,0.01),
+                rgba(255,245,223,0.01) 2px,
+                transparent 2px,
+                transparent 26px,
+                rgba(255,245,223,0.01) 26px,
+                rgba(255,245,223,0.01) 28px,
+                transparent 28px,
+                transparent 196px
+            );
+            z-index: 0; /* behind everything */
+            pointer-events: none; /* allow clicks through */
+        }
+
+        /* Scrolling Logo Marquee */
+        .logo-marquee {
+            width: 100%;
+            overflow: hidden;
+            background-color: #05090E;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 800;
+        }
+
+        .logo-marquee-track {
+            display: flex;
+            width: max-content;
+            animation: scrollLogo 160s linear infinite;
+        }
+
+        .logo-marquee-track img {
+            height: 50px;
+            margin-right: 50px; /* spacing between logos */
+            opacity: 0.07; /* 20% opacity */
+        }
+
+        @keyframes scrollLogo {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Scrolling Logo Marquee */
+        .logo-marquee2 {
+            width: 100%;
+            overflow: hidden;
+            background-color: #05090E;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 800;
+        }
+
+        .logo-marquee-track2 {
+            display: flex;
+            width: max-content;
+            animation: scrollLogo2 160s linear infinite;
+        }
+
+        .logo-marquee-track2 img {
+            height: 50px;
+            margin-right: 50px; /* spacing between logos */
+            opacity: 0.07; /* 20% opacity */
+        }
+
+        @keyframes scrollLogo2 {
+            100% {
+                transform: translateX(0);
+            }
+            0% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Scrolling Logo Marquee */
+        .logo-marquee3 {
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(to right, #FFF5DF -50%, transparent 100%);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 800;
+        }
+
+        .logo-marquee-track3 {
+            display: flex;
+            width: max-content;
+            animation: scrollLogo3 200s linear infinite;
+        }
+
+        .logo-marquee-track3 img {
+            box-shadow: 0 0 100px rgba(255, 255, 255, 0.05); /* subtle glow */
+            height: 270px; /* fixed logo size */
+            margin-right: 100px; /* spacing between logos */
+            opacity: 1; /* full opacity */
+        }
+
+        @keyframes scrollLogo3 {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+
+        /* Navbar Styling */
+        .navbar {
+            background: #05090E;
+            height: 156px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .navbar__container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            max-width: 1920px;
+            padding: 0 108px;
+        }
+
+        .logo__container {
+            display: flex;
+            align-items: center;
+            z-index: 1001; /* Ensure logo is above menu */
+        }
+
+        #navbar__logo {
+            color: #FFF5DF;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 2rem;
+        }
+
+        .logo-img {
+            height: 25px;
+            width: auto;
+        }
+
+        .navbar__menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            height: 100%;
+            gap: 2rem;
+            margin-left: 100px; /* maintain 100px gap from the logo */
+            flex-wrap: nowrap; /* prevent wrapping */
+            white-space: nowrap; /* prevent menu items from breaking into multiple lines */
+        }
+
+        .navbar__links {
+            font-size: 23px;
+            color: #FFF5DF;
+            text-decoration: none; /* remove underline */
+            /* font-weight: 400;  Removed global bold setting */
+            white-space: nowrap; /* prevent text from wrapping */
+        }
+
+        .menu-img {
+            height: 23px;
+            width: auto;
+            cursor: pointer;
+            display: none; /* Hidden by default */
+        }
+
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 900px) {
+            .navbar__container {
+                height: auto;
+                flex-direction: column;
+                width: 100%;
+                padding: 0 10px; /* reduce padding to fit expanded menu */
+            }
+
+            /* Position the menu icon at the right corner */
+            .navbar__toggle {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                position: absolute;
+                right: 0;
+                padding-right: 20px; /* optional spacing from edge */
+                transform: none;
+                z-index: 1000;
+            }
+
+            .menu-img {
+                display: block;
+            }
+
+            .navbar__menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%; /* ensure it starts below the navbar */
+                left: 0;
+                background: #05090E;
+                text-align: center;
+                z-index: 999; /* make sure it overlays correctly */
+                margin-left: 0; /* remove margin on mobile */
+                flex-wrap: nowrap; /* prevent wrapping */
+                white-space: nowrap; /* prevent menu items from breaking into multiple lines */
+                gap: 0.5rem; /* decrease spacing between menu items on mobile */
+            }
+
+            .navbar__menu.active {
+                display: flex;
+                align-items: flex-end; /* right-align menu items */
+                gap: 0; /* slight overlap between menu items */
+            }
+
+            .navbar__links {
+                padding: 1rem;
+                width: 100%;
+                font-size: 18px; /* reduce font size on smaller screens */
+                white-space: nowrap; /* prevent text from wrapping */
+                text-align: right; /* right-align text inside each menu item */
+                align-self: flex-end; /* right align each menu item */
+                font-weight: 400; /* normal by default */
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            /* Make menu items bold, right-aligned, and larger when mobile menu is expanded */
+            .navbar__menu.active .navbar__links {
+                font-weight: 700;
+                font-size: 30px;
+                text-align: right;
+                align-self: flex-end;
+            }
+
+            /* Staggered Slide-in animation for mobile menu items */
+            @keyframes slideInRight {
+                0% {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                100% {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            /* Slide-out animation for mobile menu items (reverse of slide-in) */
+            @keyframes slideOutLeft {
+                0% {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+
+            /* Apply staggered animation to menu items when menu is active */
+            .navbar__menu.active .navbar__item:nth-child(1) .navbar__links {
+                animation: slideInRight 0.25s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                animation-delay: 0s;
+            }
+            .navbar__menu.active .navbar__item:nth-child(2) .navbar__links {
+                animation: slideInRight 0.25s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                animation-delay: 0.07s;
+            }
+            .navbar__menu.active .navbar__item:nth-child(3) .navbar__links {
+                animation: slideInRight 0.25s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                animation-delay: 0.14s;
+            }
+            .navbar__menu.active .navbar__item:nth-child(4) .navbar__links {
+                animation: slideInRight 0.25s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                animation-delay: 0.21s;
+            }
+
+            /* Animate backwards (slide out) when menu is collapsed, with staggered delay */
+            .navbar__menu:not(.active) .navbar__item:nth-child(1) .navbar__links {
+                animation: slideOutLeft 0.18s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                animation-delay: 0.21s;
+            }
+            .navbar__menu:not(.active) .navbar__item:nth-child(2) .navbar__links {
+                animation: slideOutLeft 0.18s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                animation-delay: 0.14s;
+            }
+            .navbar__menu:not(.active) .navbar__item:nth-child(3) .navbar__links {
+                animation: slideOutLeft 0.18s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                animation-delay: 0.07s;
+            }
+            .navbar__menu:not(.active) .navbar__item:nth-child(4) .navbar__links {
+                animation: slideOutLeft 0.18s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+                animation-delay: 0s;
+            }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 30px 300px 0px 300px;
+            box-sizing: border-box;
+            margin-top: 10px;
+            margin-bottom: 0; /* reduced bottom margin */
+            gap: 40px;
+        }
+
+        .hero-left {
+            flex: 1 1 0;
+            min-width: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-left p {
+            font-family: 'Roboto thin', sans-serif;
+            font-weight: 100; /* Thin */
+            font-size: clamp(28px, 8vw, 70px);
+            color: #FFF5DF;
+            line-height: 1.2;
+            white-space: pre-line; /* preserve default line breaks */
+        }
+
+        .hero-right {
+            flex: 1 1 0;
+            min-width: 120px;
+            max-width: 100%;
+            overflow: hidden; /* clip the marquee inside this container */
+            height: 370px; /* fixed height, do not change */
+            position: relative;
+            display: flex;
+            align-items: center; /* center marquee vertically */backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .hero-right .logo-marquee-track {
+            animation: scrollLogo 80s linear infinite; /* can adjust speed */
+        }
+
+        .hero-right .logo-marquee-track img {
+            opacity: 1; /* full opacity */
+        }
+
+        /* Responsive: scale columns and padding, do not stack columns */
+        @media screen and (max-width: 1400px) {
+            .hero-section {
+                padding: 30px 7vw 0px 7vw;
+                gap: 32px;
+            }
+            .hero-left p {
+                font-size: clamp(20px, 10vw, 70px);
+                white-space: pre-line;
+            }
+        }
+
+        @media screen and (max-width: 1024px) {
+            .hero-section {
+                padding: 30px 3vw 0px 3vw;
+                gap: 18px;
+            }
+            .hero-left {
+                flex: 0 1 55%;
+            }
+            .hero-right {
+                height: 370px; /* keep fixed height */
+                flex: 0 1 45%; /* shrink width proportionally */
+            }
+            .hero-left p {
+                font-size: clamp(15px, 8vw, 70px);
+                white-space: pre-line;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            .hero-section {
+                padding: 5px 3vw 0px 3vw;
+                gap: 5px;
+            }
+            .hero-left {
+                flex: 0 1 60%;
+            }
+            .hero-right {
+                height: 370px; /* keep fixed height */
+                flex: 0 1 40%; /* shrink width proportionally */
+            }
+            .hero-left p {
+                font-size: clamp(14px, 10vw, 60px);
+                white-space: pre-line;
+            }
+        }
+        @media screen and (max-width: 480px) {
+            .hero-section {
+                padding: 30px 3vw 30px 3vw;
+                gap: 18px;
+            }
+            .hero-left {
+                flex: 0 1 65%;
+            }
+            .hero-right {
+                flex: 0 1 35%; /* shrink width further */
+            }
+        }
+        
+    </style>
+    <style>
+        .collage-section {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: #05090E;
+        }
+
+        .collage-grid {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            grid-template-rows: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+            width: 1620px;
+            height: 807px;
+            max-width: 98vw;
+            max-height: 60vw;
+            transition: transform 0.3s cubic-bezier(.4,0,.2,1), width 0.3s, height 0.3s;
+        }
+
+        .collage-card {
+            border-radius: 1px;
+            overflow: hidden;
+            background-color: #111;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: stretch;
+            transition: transform 0.3s ease; /* smooth tilt */
+            
+        }
+
+        .collage-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease; /* smooth zoom */
+        }
+        .collage-card:hover img {
+            transform: scale(1.10); /* zoom in on hover */
+        }
+        .collage-card:hover {
+            transform: scale(0.95); /* zoom in on hover */
+            border-radius: 5px;
+        }
+
+        /* Card size variations for 6x3 grid */
+        .collage-card.tall {
+            grid-row: span 3;
+            grid-column: span 1;
+        }
+        .collage-card.tall2 {
+            grid-row: span 2;
+            grid-column: span 1;
+        }
+        .collage-card.wide {
+            grid-row: span 1;
+            grid-column: span 2;
+        }
+
+        .collage-card.square {
+            grid-row: span 1;
+            grid-column: span 1;
+        }
+
+        /* Responsive grid scaling and button margin */
+        .collage-button-container {
+            text-align: center;
+            margin-top: 30px;
+            transition: margin-top 0.3s cubic-bezier(.4,0,.2,1);
+        }
+
+        @media screen and (max-width: 1600px) {
+            .collage-grid {
+                transform: scale(1.05);
+                transform-origin: top center;
+            }
+            .collage-button-container {
+                margin-top: 90px;
+            }
+        }
+
+        @media screen and (max-width: 1300px) {
+            .collage-grid {
+                transform: scale(1.04);
+                transform-origin: top center;
+            }
+            .collage-button-container {
+                margin-top: 80px;
+            }
+        }
+
+        @media screen and (max-width: 1000px) {
+            .collage-grid {
+                transform: scale(1.03);
+                transform-origin: top center;
+            }
+            .collage-button-container {
+                margin-top: 60px;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            .collage-grid {
+                transform: scale(1.025);
+                transform-origin: top center;
+            }
+            .collage-button-container {
+                margin-top: 50px;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            .collage-grid {
+                transform: scale(1);
+                transform-origin: top center;
+            }
+            .collage-button-container {
+                margin-top: 40px;
+            }
+            
+        }
+
+        .collage-btn {
+            padding: 25px 25px;
+            font-size: 16px;
+            font-family: 'Poppins extrathin', sans-serif;
+            font-weight: 100;
+            background: linear-gradient(0deg, rgba(198,142,105,0.14) 0%, rgba(255,245,223,0.14) 100%);
+            color: #FFF5DF;
+            border: none;
+            border-radius: 50px;
+            /* Inner shadow for subtle inset effect */
+            box-shadow: inset 0px 0px 19px rgba(255,245,223,0.21);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .collage-btn:hover {
+            background-color: #ffe7a3;
+            color: #05090E;
+            box-shadow: 0 0px 20px 0 rgba(255,245,223,0.50);
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor" id="custom-cursor"></div>
+
+    <nav class="navbar">
+    <div class="navbar__container">
+        <div class="logo__container">
+            <a href="/" id="navbar__logo">
+                <img src="images/Logo Light.svg" alt="SDarts Logo" class="logo-img" />
+            </a>
+        </div>
+
+        <!-- Centered Menu Icon for Mobile -->
+        <div class="navbar__toggle" id="mobile-menu">
+            <img src="images/Menu button.png" alt="Menu Button" class="menu-img" />
+        </div>
+
+        <!-- Menu Items -->
+        <ul class="navbar__menu">
+            <li class="navbar__item"><a href="/" class="navbar__links">Hello.</a></li>
+            <li class="navbar__item"><a href="/" class="navbar__links">The Vault.</a></li>
+            <li class="navbar__item"><a href="/" class="navbar__links">What I Bring.</a></li>
+            <li class="navbar__item"><a href="/" class="navbar__links">Let's Talk.</a></li>
+        </ul>
+    </div>
+</nav>
+    <!-- Scrolling Logo Marquee -->
+    <div class="logo-marquee">
+        <div class="logo-marquee-track">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <!-- duplicate foLight Stroke.svgect -->
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+        </div>
+    </div>
+     <!-- Scrolling Logo Marquee -->
+    <div class="logo-marquee2">
+        <div class="logo-marquee-track2">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <!-- duplicate foLight Stroke.svgect -->
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-left">
+            <p><span id="typewriter-text">hi.
+I'm
+Navod Peiris.</span></p>
+        </div>
+        <div class="hero-right">
+            <div class="logo-marquee3">
+                <div class="logo-marquee-track3">
+                    <img src="images/Logo Light.svg" alt="SDarts Logo">
+                    <img src="images/Logo Light.svg" alt="SDarts Logo">
+                    <img src="images/Logo Light.svg" alt="SDarts Logo">
+                    <img src="images/Logo Light.svg" alt="SDarts Logo">
+                    <!-- duplicate foLogo Light.svgl -->
+                    <img src="images/Logo Light.svg" alt="SDarts Logo">
+                    <img src="images/Logo Light.svg" alt="SDarts Logo">
+                    <img src="images/Logo Light.svg" alt="SDarts Logo">
+                    <img src="images/Logo Light.svg" alt="SDarts Logo">
+                </div>
+            </div>
+        </div>
+    </section>
+<style>
+.highlight-section {
+    width: 100%;
+    max-width: 1920px;
+    background-color: #05090E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 300px 0px 300px;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.highlight-section .showcase-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1700px;
+    gap: 20px;
+}
+
+.highlight-section .highlight-left {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    will-change: transform;
+}
+
+.highlight-section .highlight-card {
+    width: 552px;
+    height: 533px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #111;
+    flex: 0 0 auto;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 2px 12px rgba(0,0,0,0.15);
+}
+
+.highlight-section .highlight-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.highlight-section .highlight-card:hover img {
+    transform: scale(1.05);
+}
+
+.highlight-section .highlight-right {
+    flex: 1 1 62%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.highlight-section .highlight-right h1 {
+    font-family: 'Roboto thin', sans-serif;
+    font-weight: 100;
+    font-size: clamp(28px, 6vw, 70px);
+    color: #FFF5DF;
+    line-height: 1.2;
+    text-align: right;
+    white-space: normal;
+}
+
+.highlight-section .highlight-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 150px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 1400px) {
+    .highlight-section .showcase-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+    }
+    .highlight-section .highlight-left {
+        transform: scale(0.85);
+        transform-origin: top center;
+    }
+    .highlight-section .highlight-right h1 {
+        white-space: nowrap;
+        font-size: clamp(24px, 6vw, 50px);
+        line-height: 1.2;
+        text-align: center;
+        margin-top: -50px;
+    }
+    .highlight-section .highlight-button-container {
+        margin-top: 60px;
+    }
+}
+@media screen and (min-width: 1400px) {
+    .highlight-section .highlight-right h1 {
+        white-space: pre-line;
+        text-align: right;
+    }
+}
+@media screen and (max-width: 1000px) {
+    .highlight-section {
+        padding: 50px 0.5vw;
+    }
+    .highlight-section .showcase-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+    }
+    .highlight-section .highlight-left,
+    .highlight-section .highlight-right {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+    .highlight-section .highlight-right {
+        justify-content: center;
+        margin-top: 32px;
+    }
+    .highlight-section .highlight-right h1 {
+        text-align: center;
+        white-space: nowrap;
+        font-size: clamp(24px, 6vw, 50px);
+        margin-top: -100px;
+    }
+    .highlight-section .highlight-button-container {
+        margin-top: 30px;
+    }
+    .highlight-section .highlight-left {
+        transform: scale(0.85);
+        transform-origin: top center;
+    }
+}
+@media screen and (max-width: 900px) {
+    .highlight-section {
+        padding: 50px 0.5vw;
+    }
+    .highlight-section .showcase-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+    }
+    .highlight-section .highlight-left,
+    .highlight-section .highlight-right {
+        flex: 5 5 100%;
+        max-width: 100%;
+    }
+    .highlight-section .highlight-right {
+        justify-content: center;
+        margin-top: 32px;
+    }
+    .highlight-section .highlight-right h1 {
+        text-align: center;
+        white-space: nowrap;
+        font-size: clamp(22px, 6vw, 45px);
+    }
+    .highlight-section .highlight-button-container {
+        margin-top: 30px;
+    }
+    .highlight-section .highlight-left {
+        transform: scale(0.85);
+        transform-origin: top center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+}
+@media screen and (max-width: 700px) {
+    .highlight-section {
+        padding: 50px 0.5vw;
+    }
+    .highlight-section .highlight-left,
+    .highlight-section .highlight-right {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+    .highlight-section .highlight-left {
+        transform: scale(0.55);
+        transform-origin: top center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    .highlight-section .highlight-card {
+        border-radius: 3px;
+        width: 800px;
+        height: 800px;
+        aspect-ratio: 1 / 1;
+        transition: all 0.3s ease;
+    }
+    .highlight-section .highlight-right h1 {
+        font-size: clamp(22px, 8vw, 45px);
+        margin-top: -650px;
+    }
+    .highlight-section .highlight-button-container {
+        margin-top: -250px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .highlight-section {
+        padding: 50px 0.5vw;
+    }
+    .highlight-section .highlight-left {
+        transform: scale(0.55);
+        transform-origin: center top;
+        gap: 12px;
+        padding-left: 10px;
+        padding-right: 10px;
+        justify-content: center;
+    }
+    .highlight-section .highlight-card {
+        border-radius: 3px;
+        width: 800px;
+        height: 800px;
+        aspect-ratio: 1 / 1;
+        transition: all 0.3s ease;
+    }
+    .highlight-section .highlight-right h1 {
+        font-size: 50px;
+        margin-top: -550px;
+    }
+    .highlight-section .highlight-button-container {
+        margin-top: -180px;
+    }
+}
+@media screen and (max-width: 500px) {
+    .highlight-section {
+        padding: 50px 0.5vw;
+    }
+    .highlight-section .highlight-left {
+        transform: scale(0.55);
+        transform-origin: center top;
+        gap: 12px;
+        padding-left: 10px;
+        padding-right: 10px;
+        justify-content: center;
+    }
+    .highlight-section .highlight-card {
+        border-radius: 3px;
+        width: 700px;
+        height: 700px;
+        aspect-ratio: 1 / 1;
+        transition: all 0.3s ease;
+    }
+    .highlight-section .highlight-right h1 {
+        font-size: 50px;
+        margin-top: -550px;
+    }
+    .highlight-section .highlight-button-container {
+        margin-top: -180px;
+    }
+}
+</style>
+
+    <!-- Welcome Section (Showcase) -->
+    <section class="welcome-section">
+        <div class="welcome-left">
+            <p>
+Welcome to my creative Life
+showcase. Enjoy every bit you see
+here and there.
+            </p>
+        </div>
+        <div class="welcome-right">
+            <button class="explore-btn">Connect With me!</button>
+        </div>
+    </section>
+    <style>
+        /* Welcome Section Styles */
+        .welcome-section {
+            display: flex;
+            flex-direction: row; /* two columns on large screens */
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 50px 300px;
+            box-sizing: border-box;
+            margin-top: -70px;
+            margin-bottom: 1rem;
+            gap: 20px;
+        }
+
+        .welcome-left {
+            flex: 1 1 0;
+            min-width: 200px;
+            white-space: pre-line; /* preserve line breaks */
+        }
+
+        .welcome-left p {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 100; /* Thin */
+            font-size: clamp(18px, 2.5vw, 29px); /* responsive font size */
+            color: rgb(255, 245, 223, 0.30);
+            line-height: 1.5;
+            margin: ;
+        }
+
+        .welcome-right {
+            flex: 0 0 auto;
+        }
+
+        .explore-btn {
+            padding: 25px 25px;
+            font-size: 16px;
+            font-family: 'Poppins extrathin', sans-serif;
+            font-weight: 100;
+            background: linear-gradient(0deg, rgba(198,142,105,0.14) 0%, rgba(255,245,223,0.14) 100%);
+            color: #FFF5DF;
+            border: none;
+            border-radius: 50px;
+            /* Inner shadow for subtle inset effect */
+            box-shadow: inset 0px 0px 19px rgba(255,245,223,0.21);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .explore-btn:hover {
+            background-color: #ffe7a3;
+            color: #05090E;
+            box-shadow: 0 0px 20px 0 rgba(255,245,223,0.50);
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media screen and (max-width: 1500px) {
+            .welcome-section {
+                flex-direction: column; /* stack text above button */
+                align-items: center;
+                padding: 70px 3vw;
+            }
+            .welcome-left p {
+                font-size: clamp(16px, 4vw, 25px);
+                text-align: center;
+            }
+            .welcome-right {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+            .explore-btn {
+                font-size: 16px;
+                padding: 25px 30px;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            .welcome-section {
+                padding: 60px 3vw;
+                margin-bottom: 3rem;
+                align-items: center;
+                gap:5px;
+            }
+            .welcome-left p {
+                font-size: clamp(14px, 5vw, 22px);
+                text-align: center;
+            }
+            .welcome-right {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+            .explore-btn {
+                font-size: 16px;
+                padding: 25px 30px;
+            }
+        }
+         /* Scrolling Logo Marquee */
+        .logo-marquee4 {
+            width: 100%;
+            overflow: hidden;
+            background-color: #05090E;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 800;
+        }
+
+        .logo-marquee-track4 {
+            display: flex;
+            width: max-content;
+            animation: scrollLogo4 160s linear infinite;
+        }
+
+        .logo-marquee-track4 img {
+            height: 100px;
+            margin-right: 50px; /* spacing between logos */
+            opacity: 0.05; /* 20% opacity */
+        }
+
+        @keyframes scrollLogo4 {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+    <!-- Scrolling Logo Marquee -->
+    <div class="logo-marquee4">
+        <div class="logo-marquee-track4">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <!-- duplicate foLight Stroke.svgect -->
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+            <img src="images/Light Stroke.svg" alt="SDarts Logo">
+        </div>
+    </div>
+
+    <!-- Image Collage Section -->
+    <section class="collage-section">
+        <div class="collage-grid">
+            <div class="collage-card tall"><img src="images/EXM.png" alt="Artwork 1"></div>
+            <div class="collage-card square"><img src="images/EXM.png" alt="Artwork 2"></div>
+            <div class="collage-card square"><img src="images/EXM.png" alt="Artwork 3"></div>
+            <div class="collage-card square"><img src="images/EXM.png" alt="Artwork 4"></div>
+            <div class="collage-card tall2"><img src="images/EXM.png" alt="Artwork 5"></div>
+            <div class="collage-card tall"><img src="images/EXM.png" alt="Artwork 6"></div>
+            <div class="collage-card tall2"><img src="images/EXM.png" alt="Artwork 7"></div>
+            <div class="collage-card wide"><img src="images/EXM.png" alt="Artwork 8"></div>
+            <div class="collage-card square"><img src="images/EXM.png" alt="Artwork 9"></div>
+            <div class="collage-card square"><img src="images/EXM.png" alt="Artwork 10"></div>
+            <div class="collage-card square"><img src="images/EXM.png" alt="Artwork 11"></div>
+        </div>
+        <div class="collage-button-container">
+            <button class="collage-btn">Wanna See more?</button>
+        </div>
+    </section>
+
+    <!-- Showcase Section: 1920x1080px, image cards left, text right, button below -->
+    <section class="showcase-section">
+        <div class="showcase-content">
+            <div class="showcase-left">
+                <div class="showcase-card"><img src="images/EXM.png" alt="Card 1"></div>
+                <div class="showcase-card"><img src="images/EXM.png" alt="Card 2"></div>
+                <div class="showcase-card"><img src="images/EXM.png" alt="Card 3"></div>
+            </div>
+            <div class="showcase-right">
+                <h1>
+                    wanna
+                    hire
+                    me?
+                </h1>
+            </div>
+        </div>
+        <div class="showcase-button-container">
+            <button class="collage-btn">Discover More</button>
+        </div>
+    </section>
+      
+    <!-- Single Card Showcase Section (renamed to Highlight Section) -->
+    <section class="highlight-section">
+        <div class="showcase-content">
+            <div class="highlight-left">
+                <div class="highlight-card">
+                    <img src="images/EXM.png" alt="Feature Card">
+                </div>
+            </div>
+            <div class="highlight-right">
+                <h1>
+                    wanna talk it over?
+                </h1>
+            </div>
+        </div>
+        <div class="highlight-button-container">
+            <button class="collage-btn">Connect with me</button>
+        </div>
+    </section>
+
+
+    <style>
+        .showcase-section {
+            width: 100%;
+            max-width: 1920px;
+            height: 1080px;
+            background-color: #05090E;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 300px 0px 300px;
+            box-sizing: border-box;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .showcase-content {
+            display: flex;
+            justify-content: center; /* center both columns */
+            align-items: center; /* vertical alignment */
+            width: 100%;
+            max-width: 1700px;
+            gap: 20px;
+        }
+
+        .showcase-left {
+            display: flex;
+            flex-direction: row; /* horizontal row */
+            gap: 24px;
+            flex: 0 0 auto;
+            justify-content: flex-start;
+            align-items: center;
+            /* To allow transform scaling on this container */
+            will-change: transform;
+        }
+
+        .showcase-card {
+            width: 264px;
+            height: 540px;
+            aspect-ratio: 22/45; /* maintain fixed aspect ratio */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 2px 12px rgba(0,0,0,0.15);
+            background: #111;
+            flex: 0 0 auto;
+        }
+
+        .showcase-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .showcase-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .showcase-right {
+            flex: 1 1 62%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .showcase-right h1 {
+            font-family: 'Roboto thin', sans-serif;
+            font-weight: 100;
+            font-size: 70px; /* fixed scale */
+            color: #FFF5DF;
+            line-height: 100px;
+            text-align: right;
+            white-space: pre-line;
+            overflow: hidden;
+            width: max-content;
+        }
+
+
+
+        .showcase-button-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 150px;
+        }
+
+        .showcase-button-container .collage-btn {
+            /* Use global button style */
+        }
+
+        /* Responsive adjustments */
+        @media screen and (max-width: 1400px) {
+            .showcase-section {
+                height: auto;
+                padding: 50px 3vw;
+            }
+            .showcase-content {
+                flex-direction: column;
+                align-items: center;
+                gap: 32px;
+            }
+            .showcase-left,
+            .showcase-right {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+            .showcase-right {
+                justify-content: center;
+                margin-top: 20px;
+            }
+            .showcase-right h1 {
+                white-space: nowrap; /* allow breaking into multiple lines */
+                font-size: clamp(24px, 6vw, 50px);
+                line-height: 1.2;
+                text-align: center;
+                margin-top: -50px;
+            }
+            .showcase-button-container {
+                margin-top: 60px;
+            }
+            /* Scale down showcase-left cards proportionally */
+            .showcase-left {
+                transform: scale(0.85);
+                transform-origin: top center;
+            }
+        }
+        @media screen and (min-width: 1400px) {
+            .showcase-right h1 {
+                white-space: pre-line;
+                text-align: right;
+            }
+        }
+        @media screen and (max-width: 1000px) {
+            .showcase-section {
+                height: auto;
+                padding: 50px 3vw;
+            }
+            .showcase-content {
+                flex-direction: column;
+                align-items: center;
+                gap: 32px;
+            }
+            .showcase-left,
+            .showcase-right {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+            .showcase-right {
+                justify-content: center;
+                margin-top: 32px;
+            }
+            .showcase-right h1 {
+                text-align: center;
+                white-space: nowrap;
+                font-size: clamp(24px, 6vw, 50px);
+                margin-top: -100px;
+            }
+            .showcase-button-container {
+                margin-top: 30px;
+            }
+            /* Scale down showcase-left cards proportionally */
+            .showcase-left {
+                transform: scale(0.85);
+                transform-origin: top center;
+            }
+        }
+        @media screen and (max-width: 900px) {
+            .showcase-section {
+                height: auto;
+                padding: 50px 1vw;
+            }
+            .showcase-content {
+                flex-direction: column;
+                align-items: center;
+                gap: 32px;
+            }
+            .showcase-left,
+            .showcase-right {
+                flex: 5 5 100%;
+                max-width: 100%;
+            }
+            .showcase-right {
+                justify-content: center;
+                margin-top: 32px;
+            }
+            .showcase-right h1 {
+                text-align: center;
+                white-space: nowrap;
+                font-size: clamp(22px, 6vw, 45px);
+            }
+            .showcase-button-container {
+                margin-top: 30px;
+            }
+            /* Scale down showcase-left cards proportionally and center them */
+            .showcase-left {
+                transform: scale(0.85);
+                transform-origin: top center;
+                justify-content: center;
+                margin: 0 auto;
+            }
+        }
+        @media screen and (max-width: 700px) {
+            .showcase-left,
+            .showcase-right {
+                flex: 1 1 100%;
+                max-width: 100%;
+
+            /* Scale down showcase-left cards proportionally and center them */
+            .showcase-left {
+                transform: scale(0.55);
+                transform-origin: top center;
+                justify-content: center;
+                margin: 0 auto;
+            }
+        }
+        @media screen and (max-width: 600px) {
+            .showcase-left {
+               transform: scale(0.55);
+               transform-origin: center top;
+               gap: 12px; /* reduce gap between cards */
+               padding-left: 10px; /* spacing from left edge */
+               padding-right: 10px; /* spacing from right edge */
+               justify-content: center; /* ensure horizontal centering */
+            }
+            .showcase-card {
+                border-radius: 3px;
+            }
+            /* Keep fixed card size and text scale */
+            .showcase-card {
+                width: 264px;
+                height: 540px;
+            }
+            .showcase-right h1 {
+                font-size: 50px;
+                margin-top: -400px;
+            }
+            .showcase-button-container {
+                margin-top: -120px;
+        }
+        @media screen and (max-width: 500px) {
+            .showcase-section {
+                padding: 50px 0.5vw;
+            }
+            .showcase-left {
+                transform: scale(0.55);
+                transform-origin: center top;
+                gap: 12px; /* reduce gap between cards */
+                padding-left: 10px; /* spacing from left edge */
+                padding-right: 10px; /* spacing from right edge */
+                justify-content: center; /* ensure horizontal centering */
+            }
+            .showcase-right h1 {
+                font-size: 50px;
+                margin-top: -400px;
+            }
+            .showcase-button-container {
+                margin-top: -120px;
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menu = document.getElementById('mobile-menu');
+            const menuLinks = document.querySelector('.navbar__menu');
+
+            menu.addEventListener('click', () => {
+                menuLinks.classList.toggle('active');
+            });
+
+            // Custom Cursor Implementation
+            const cursor = document.getElementById('custom-cursor');
+
+            // Hide default cursor
+            document.body.style.cursor = 'none';
+
+            // Move custom cursor with mouse
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.top = e.clientY + 'px';
+                cursor.style.left = e.clientX + 'px';
+            });
+
+            // Elements that should trigger cursor hover effect
+            function getHoverElements() {
+                // All links, navbar menu links, buttons, clickable icons, and menu button
+                return document.querySelectorAll('a, .navbar__links, button, .clickable-icon, .navbar__toggle');
+            }
+            function addCursorHoverEvents() {
+                getHoverElements().forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursor.classList.add('hovered');
+                    });
+                    el.addEventListener('mouseleave', () => {
+                        cursor.classList.remove('hovered');
+                    });
+                });
+            }
+            addCursorHoverEvents();
+
+
+            // Typewriter effect line by line with infinite looping for hero
+            const typewriter = document.getElementById('typewriter-text');
+            if (typewriter) {
+                const originalText = typewriter.textContent;
+                const lines = originalText.split('\n');
+
+                function startTyping() {
+                    typewriter.textContent = '';
+                    let lineIndex = 0;
+                    let charIndex = 0;
+
+                    function typeLine() {
+                        if (lineIndex < lines.length) {
+                            charIndex = 0;
+                            function typeChar() {
+                                if (charIndex <= lines[lineIndex].length) {
+                                    let html = '';
+                                    for (let i = 0; i < lineIndex; i++) {
+                                        html += lines[i] + '<br>';
+                                    }
+                                    html += lines[lineIndex].substring(0, charIndex);
+                                    typewriter.innerHTML = html;
+                                    charIndex++;
+                                    setTimeout(typeChar, 90);
+                                } else {
+                                    lineIndex++;
+                                    setTimeout(typeLine, 500);
+                                }
+                            }
+                            typeChar();
+                        } else {
+                            // After last line, clear and restart after 1s
+                            setTimeout(() => {
+                                typewriter.textContent = '';
+                                startTyping();
+                            }, 7000);
+                        }
+                    }
+                    typeLine();
+                }
+                startTyping();
+            }
+        });
+    </script>
+</body>
+</html>
+        @media screen and (min-width: 1400px) {
+            .showcase-right h1 {
+                white-space: pre-line; /* preserve <br> only on large screens */
+            }
+        }
